@@ -1,44 +1,37 @@
 function convertToRoman(num) {
-  	const obj = {
-      0:['M',1000], 
-      1:['D', 500], 
-      2:['C', 100], 
-      3:['L', 50], 
-      4:['X', 10], 
-      5:['V', 5], 
-      6:['I', 1]
-    };
-
-  //your code here
-	let result = "";
-
-  for (let key in obj) {
-    const [symbol, value] = obj[key];
+  const obj = {
+    0: ['M', 1000],
+    1: ['CM', 900],
+    2: ['D', 500],
+    3: ['CD', 400],
+    4: ['C', 100],
+    5: ['XC', 90],
+    6: ['L', 50],
+    7: ['XL', 40],
+    8: ['X', 10],
+    9: ['IX', 9],
+    10: ['V', 5],
+    11: ['IV', 4],
+    12: ['I', 1]
+  };
+ 
+  let roman = '';
+ 
+  for (let i = 0; i < 13; i++) {
+    const symbol = obj[i][0];
+    const value = obj[i][1];
     const count = Math.floor(num / value);
-
-    if (count >= 1) {
-      result += symbol.repeat(count);
-      num -= value * count;
-    }
-
-    // Handle cases like 4, 40, 9, etc. (using subtraction notation)
-    if (key % 2 === 0 && num >= obj[key + 2][1] - value) {
-      result += obj[key + 2][0] + symbol;
-      num -= obj[key + 2][1] - value;
+ 
+    if (count > 0) {
+      roman += symbol.repeat(count);
+      num %= value;
     }
   }
-
-  return result;
+ 
+  return roman;
 }
-
-// console.log(convertToRoman(36));
-
-// You can test your code by running the above function and printing it to console by pressing the run button at the top. To run it with input 36, uncomment the following line
-
-// console.log(convertToRoman(36));
-
-
-
-
+ 
+ 
+ 
 // do not edit below this line
 module.exports = convertToRoman
