@@ -1,36 +1,43 @@
-function toRoman(num) {
-    const romanNumerals = [
-        { value: 1000, numeral: 'M' },
-        { value: 900, numeral: 'CM' },
-        { value: 500, numeral: 'D' },
-        { value: 400, numeral: 'CD' },
-        { value: 100, numeral: 'C' },
-        { value: 90, numeral: 'XC' },
-        { value: 50, numeral: 'L' },
-        { value: 40, numeral: 'XL' },
-        { value: 10, numeral: 'X' },
-        { value: 9, numeral: 'IX' },
-        { value: 5, numeral: 'V' },
-        { value: 4, numeral: 'IV' },
-        { value: 1, numeral: 'I' }
-    ];
+function convertToRoman(num) {
+  const symbols = [
+    ['M', 1000],
+    ['D', 500],
+    ['C', 100],
+    ['L', 50],
+    ['X', 10],
+    ['V', 5],
+    ['I', 1]
+  ];
 
-    if (num === 0) return '';
+  let roman = '';
 
-    for (let i = 0; i < romanNumerals.length; i++) {
-        if (num >= romanNumerals[i].value) {
-            return romanNumerals[i].numeral + toRoman(num - romanNumerals[i].value);
-        }
+  for (let i = 0; i < symbols.length; i++) {
+    const [symbol, value] = symbols[i];
+
+    while (num >= value) {
+      roman += symbol;
+      num -= value;
     }
+
+    // Handle subtractive combinations like IV, IX, etc.
+    if (i % 2 === 0) {
+      const nextIndex = i - (i % 2) + 2;
+      const nextSymbol = symbols[nextIndex][0];
+      const nextValue = symbols[nextIndex][1];
+      if (num >= value - nextValue) {
+        roman += nextSymbol + symbol;
+        num -= (value - nextValue);
+      }
+    }
+  }
+
+  return roman;
 }
 
-
-console.log(toRoman(354)); // Output: "CCCLIV"
-
-// You can test your code by running the above function and printing it to console by pressing the run button at the top. To run it with input 36, uncomment the following line
-
-// console.log(convertToRoman(36));
-
+// Test cases
+console.log(convertToRoman(14)); // Output: XIV
+console.log(convertToRoman(798)); // Output: DCCXCVIII
+console.log(convertToRoman(36)); // Output: XXXVI
 
 
 
